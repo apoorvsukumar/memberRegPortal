@@ -1,0 +1,60 @@
+<app-header (featureSelected)="onNavigate($event)"></app-header>
+<form class="row g-3 needs-validation" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <div class="col-md-4">
+      <label for="username" class="form-label">Email address</label>
+      <input type="email" 
+        class="form-control" 
+        name="username" 
+        autocomplete="off" 
+        placeholder="Enter username"
+        formControlName="username"
+        
+      >
+      <div class="text-danger" *ngIf="!signinForm.get('username').valid && signinForm.get('username').touched">
+        <div *ngIf="signinForm.get('username').errors.required" class="text-danger">Email id is required.</div>
+        <div *ngIf="signinForm.get('username').errors.email" class="text-danger">Please enter a valid email id.</div>
+      </div>
+      <!-- <span *ngIf="!signinForm.get('username').valid && signinForm.get('username').touched" class="help-block">
+        <span *ngIf="signinForm.get('username').errors.required" class="help-block">Email id is required.</span>
+        <span *ngIf="signinForm.get('username').errors.email" class="help-block">Please enter a valid email id.</span>
+      </span> -->
+      
+    </div>
+    <div class="col-md-4">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" 
+       class="form-control"
+       name="password"
+       placeholder="Password"
+       formControlName="password"
+      >
+      <div class="text-danger" *ngIf="!signinForm.get('password').valid && signinForm.get('password').touched">
+        <div *ngIf="signinForm.get('password').errors.required" class="text-danger">Password is required.</div>
+      </div>
+      <div class="text-danger" *ngIf="!signinForm.get('password').valid">
+        <div *ngIf="signinForm.get('password').errors.minlength" class="text-danger">Password should be minimum 8 characters.</div>
+        <div *ngIf="signinForm.get('password').errors.hasCapitalCase" class="text-danger">Password should be have atleast 1 uppercase character.</div>
+        <div *ngIf="signinForm.get('password').errors.hasSmallCase" class="text-danger">Password should be have atleast 1 lowercase character.</div>
+        <div *ngIf="signinForm.get('password').errors.hasSpecialCharacters" class="text-danger">Password should be have atleast 1 special character.</div>
+        <div *ngIf="signinForm.get('password').errors.hasNumber" class="text-danger">Password should be have atleast 1 numeric character.</div>
+      </div>
+    </div>
+    <div *ngIf="showInvalidCredError" class="text-danger">
+      <p>Invalid credentials. If you have never registered in this application, please <a [routerLink]="'/signup'">click here</a> to register.</p>
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="!signinForm.valid">Login</button>
+  </form>
+  
+<hr>
+<!-- <div class="row" *ngIf="false">
+  <div class="col-xs-10">
+    <ul class="list-group">
+      <a class="list-group-item" style="cursor: pointer"
+      *ngFor ="let usr of users"
+      >
+    {{ usr.name }} {{ usr.email }}
+    </a>
+    </ul>
+  </div>
+</div> -->

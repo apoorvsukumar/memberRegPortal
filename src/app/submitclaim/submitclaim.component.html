@@ -1,0 +1,89 @@
+<h3>Submit claim</h3>
+<hr>
+<form class="row g-3 needs-validation" [formGroup]="claimForm" (ngSubmit)="onSubmit()">
+    <div class="form-group col-5">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" name="firstName" autocomplete="off" placeholder="Enter First name"
+            formControlName="firstName">
+        <div class="text-danger" *ngIf="!claimForm.get('firstName').valid && claimForm.get('firstName').touched">
+            <div *ngIf="claimForm.get('firstName').errors.required">Please enter first name.</div>
+            <div *ngIf="claimForm.get('firstName').errors.pattern">Please enter a valid first name.</div>
+        </div>
+    </div>
+    <div class="form-group col-5">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" name="lastName" autocomplete="off" placeholder="Enter Last name"
+            formControlName="lastName">
+        <div class="text-danger" *ngIf="!claimForm.get('lastName').valid && claimForm.get('lastName').touched">
+            <div *ngIf="claimForm.get('lastName').errors.required">Please enter last name.</div>
+            <div *ngIf="claimForm.get('lastName').errors.pattern">Please enter a valid last name.</div>
+        </div>
+    </div>
+    <div class="form-group col-5">
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>DOB</mat-label>
+            <input matInput [max]="maxDate" [matDatepicker]="picker1" formControlName="dob">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <div class="text-danger" *ngIf="!claimForm.get('dob').valid && claimForm.get('dob').touched">
+            <div *ngIf="claimForm.get('dob').errors.required">Please enter a valid DOB.</div>
+        </div>
+    </div>
+    <div class="form-group col-5">
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Date of discharge</mat-label>
+            <input matInput [max]="maxDate" [matDatepicker]="picker2" formControlName="dischargeDate" (dateChange)="someMethodName($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <div class="text-danger" *ngIf="!claimForm.get('dischargeDate').valid && claimForm.get('dischargeDate').touched">
+            <div *ngIf="claimForm.get('dischargeDate').errors.required">Please enter Discharge date.</div>
+        </div>
+    </div>
+    <div class="form-group col-5">
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Date of Admission</mat-label>
+            <input matInput [max]="startDate" [matDatepicker]="picker3" formControlName="admissionDate">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+        <div class="text-danger" *ngIf="!claimForm.get('admissionDate').valid && claimForm.get('admissionDate').touched">
+            <div *ngIf="claimForm.get('admissionDate').errors.required">Please enter Admission Date.</div>
+        </div>
+    </div>
+    <div class="form-group col-5">
+        <label for="providerName">Provider Name</label>
+        <input type="text" class="form-control" name="providerName" autocomplete="off" placeholder="Enter Provider name"
+            formControlName="providerName">
+        <div class="text-danger" *ngIf="!claimForm.get('providerName').valid && claimForm.get('providerName').touched">
+            <div *ngIf="claimForm.get('providerName').errors.required">Please enter Provider name.</div>
+            <div *ngIf="claimForm.get('providerName').errors.pattern">Please enter a valid Provider name.</div>
+        </div>
+    </div>
+    <div class="form-group col-5">
+        <label for="billAmount">Bill Amount</label>
+        <input type="number" class="form-control" name="billAmount" autocomplete="off" placeholder="Enter Bill Amount"
+            formControlName="billAmount">
+        <div class="text-danger" *ngIf="!claimForm.get('billAmount').valid && claimForm.get('billAmount').touched">
+            <div *ngIf="claimForm.get('billAmount').errors.required">Please enter total Bill Amount.</div>
+        </div>
+    </div>
+    <div class="form-group col-5">
+    </div>
+    <div class="form-group col-5">
+        <label for="dependentType">Dependent Type</label> 
+        <select class="custom-select" class="form-control" formControlName="dependentType">
+            <option selected>Choose Dependent Type</option>
+            <option value="Self">Self</option>
+            <option value="Dependent">Dependent</option>
+        </select>
+        <div class="text-danger" *ngIf="!claimForm.get('dependentType').valid && claimForm.get('dependentType').touched">
+            <div class="text-danger" *ngIf="claimForm.get('dependentType').errors.required">Please select a dependent type.</div>
+        </div>
+    </div>
+    <hr>
+    <div class="input">
+        <button class="btn btn-primary" type="submit">Submit claim</button>
+    </div>
+</form>

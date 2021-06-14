@@ -1,0 +1,107 @@
+<app-header (featureSelected)="onNavigate($event)"></app-header>
+<hr>
+<form class="row g-3 needs-validation" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" autocomplete="off" placeholder="Enter name"
+        formControlName="name" 
+        >
+        <div class="text-danger" *ngIf="!signupForm.get('name').valid && signupForm.get('name').touched">
+            <div *ngIf="signupForm.get('name').errors.required">Please enter a name.</div>
+            <div *ngIf="signupForm.get('name').errors.pattern">Please enter a valid name.</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" class="form-control" name="address" autocomplete="off" placeholder="Enter address"
+        formControlName="address">
+        <div class="text-danger" *ngIf="signupForm.get('address').touched && signupForm.get('address').errors.required">Please enter a valid address.</div>
+    </div>
+    
+    <div class="form-group">
+        <label>Country</label> 
+        <select class="custom-select" class="form-control" formControlName="country" (change)="changeCountry($event.target.value)">
+            <option value="" selected>Choose a country</option>
+            <option *ngFor ="let count of countryList">{{count.name}} </option>
+        </select>
+        <div class="text-danger" *ngIf="!signupForm.get('country').valid && signupForm.get('country').touched">
+            <div class="text-danger" *ngIf="signupForm.get('country').errors.required">Please select a country.</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>State</label> 
+        <select class="custom-select" class="form-control" formControlName="state">
+            <option value="">Choose a state</option>
+            <!-- <option value=" ">Choose a state</option> -->
+            <option *ngFor ="let s of states">{{s}} </option>
+        </select>
+        <div class="text-danger" *ngIf="!signupForm.get('state').valid && signupForm.get('state').touched">
+            <div class="text-danger" *ngIf="signupForm.get('state').errors.required">Please select a state.</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" autocomplete="off" placeholder="Enter email"
+        formControlName="email">
+        <div class="text-danger" *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched">
+            <div *ngIf="signupForm.get('email').errors.required">Please enter an email id.</div>
+            <div *ngIf="signupForm.get('email').errors.email">Please enter a valid email id.</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" name="password" placeholder="Password" formControlName="password">
+      <div class="text-danger" *ngIf="!signupForm.get('password').valid && signupForm.get('password').touched">
+        <div *ngIf="signupForm.get('password').errors.required" class="text-danger">Password is required.</div>
+      </div>
+      <div class="text-danger" *ngIf="!signupForm.get('password').valid">
+        <div *ngIf="signupForm.get('password').errors.minlength" class="text-danger">Password should be minimum 8 characters.</div>
+        <div *ngIf="signupForm.get('password').errors.hasCapitalCase" class="text-danger">Password should be have atleast 1 uppercase character.</div>
+        <div *ngIf="signupForm.get('password').errors.hasSmallCase" class="text-danger">Password should be have atleast 1 lowercase character.</div>
+        <div *ngIf="signupForm.get('password').errors.hasSpecialCharacters" class="text-danger">Password should be have atleast 1 special character.</div>
+        <div *ngIf="signupForm.get('password').errors.hasNumber" class="text-danger">Password should be have atleast 1 numeric character.</div>
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="pan">PAN</label>
+        <input type="text" class="form-control" name="pan" autocomplete="off" placeholder="Enter PAN number"
+        formControlName="pan">
+        <div class="text-danger" *ngIf="!signupForm.get('pan').valid && signupForm.get('pan').touched">
+            <div *ngIf="signupForm.get('pan').errors.required">Please enter a PAN number.</div>
+            <div *ngIf="signupForm.get('pan').errors.pattern">Please enter a valid PAN number.</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="contactNo">Contact number</label>
+        <input type="text" class="form-control" name="contactNo" autocomplete="off" placeholder="Enter Contact number"
+        formControlName="contactNo">
+        <div class="text-danger" *ngIf="!signupForm.get('contactNo').valid && signupForm.get('contactNo').touched">
+            <div *ngIf="signupForm.get('contactNo').errors.required">Please enter a contact number</div>
+            <div *ngIf="signupForm.get('contactNo').errors.pattern">Please enter a valid contact number</div>
+        </div>
+    </div>
+    <!-- <div class="form-group">
+        <label for="dob">DOB</label>
+        <input type="text" class="form-control" name="dob" autocomplete="off" placeholder="Enter DOB"
+        formControlName="dob">
+        <span class="help-block" *ngIf="signupForm.get('dob').touched && signupForm.get('dob').errors.required">Please enter a valid DOB.</span>
+    </div> -->
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Choose a DOB</mat-label>
+        <input matInput [max]="maxDate" [matDatepicker]="picker" formControlName="dob" (dateChange)="someMethodName($event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <div class="text-danger" *ngIf="!signupForm.get('dob').valid && signupForm.get('dob').touched">
+        <div *ngIf="signupForm.get('dob').errors.required">Please enter a valid DOB.</div>
+        <!-- <span class="help-block" *ngIf="signupForm.get('dob').errors.badDateFormat">Please enter valid DOB.</span> -->
+    </div>
+    
+    <hr>
+    <div class="input">
+        <button class="btn btn-primary"
+    type="submit"
+    [disabled]="!signupForm.valid"
+    >Register</button>
+    </div>
+</form>
