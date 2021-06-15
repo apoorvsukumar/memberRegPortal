@@ -15,7 +15,6 @@
 
 <div class="card">
     <div class="card-body">
-        <!-- <h5 class="card-title">Card title</h5> -->
         <p class="card-text">Please select below button to Submit claim.</p>
         <div class="row">
             <div class="col">
@@ -45,11 +44,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of claimDetailsArray">
-        <td>{{ item.name }}</td>
+      <tr *ngFor="let item of claims" [claimsVal]="item">
+        <td>{{ item.lastName }}, {{ item.firstName }}</td>
         <td>{{ item.dob }}</td>
         <td>{{ item.providerName }}</td>
-        <td><a href="#">Edit Claim</a></td>
+        <td><a href="#" [routerLink]="['/editClaim', 'edit', item.id]">Edit Claim</a></td>
       </tr>
     </tbody>
 </table>

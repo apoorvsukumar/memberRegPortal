@@ -1,6 +1,6 @@
-<h3>Submit claim</h3>
+<h3>Edit claim</h3>
 <hr>
-<form class="row g-3 needs-validation" [formGroup]="claimForm" (ngSubmit)="onSubmit()">
+<form class="row g-3 needs-validation" [formGroup]="claimForm" (ngSubmit)="onSubmit($event)">
     <div class="form-group col-5">
         <label for="firstName">First Name</label>
         <input type="text" class="form-control" name="firstName" autocomplete="off" placeholder="Enter First name"
@@ -13,7 +13,7 @@
     <div class="form-group col-5">
         <label for="lastName">Last Name</label>
         <input type="text" class="form-control" name="lastName" autocomplete="off" placeholder="Enter Last name"
-            formControlName="lastName">
+            formControlName="lastName" >
         <div class="text-danger" *ngIf="!claimForm.get('lastName').valid && claimForm.get('lastName').touched">
             <div *ngIf="claimForm.get('lastName').errors.required">Please enter last name.</div>
             <div *ngIf="claimForm.get('lastName').errors.pattern">Please enter a valid last name.</div>
@@ -22,7 +22,7 @@
     <div class="form-group col-5">
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>DOB</mat-label>
-            <input matInput [max]="maxDate" [matDatepicker]="picker1" formControlName="dob">
+            <input matInput [max]="maxDate" [matDatepicker]="picker1" formControlName="dob" >
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
@@ -76,7 +76,7 @@
         <select class="custom-select" class="form-control" formControlName="dependentType">
             <!-- <option selected disabled>Choose Dependent Type</option> -->
             <option value="Self">Self</option>
-            <option value="Dependent">Dependent</option>
+            <option value="Dependent" >Dependent</option>
         </select>
         <div class="text-danger" *ngIf="!claimForm.get('dependentType').valid && claimForm.get('dependentType').touched">
             <div class="text-danger" *ngIf="claimForm.get('dependentType').errors.required">Please select a dependent type.</div>
@@ -84,6 +84,6 @@
     </div>
     <hr>
     <div class="input">
-        <button class="btn btn-primary" type="submit">Submit claim</button>
+        <button class="btn btn-primary" type="submit">Update claim</button>
     </div>
 </form>

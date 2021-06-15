@@ -14,13 +14,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { SubmitclaimComponent } from './submitclaim/submitclaim.component';
+import { EditclaimComponent } from './editclaim/editclaim.component';
 
 const appRoutes: Routes = [
   { path: '' , component: SigninComponent },
   { path: 'signin' , component: SigninComponent },
   { path: 'signup' , component: SignupComponent},
   { path: 'dashboard' , component: DashboardComponent},
-  { path: 'claimPage' , component: SubmitclaimComponent}
+  { path: 'claimPage' , component: SubmitclaimComponent},
+  { path: 'editClaim/:mode/:id' , component: EditclaimComponent}
 ];
 
 @NgModule({
@@ -30,7 +32,8 @@ const appRoutes: Routes = [
     SigninComponent,
     SignupComponent,
     DashboardComponent,
-    SubmitclaimComponent
+    SubmitclaimComponent,
+    EditclaimComponent
   ],
   imports: [
     BrowserModule,

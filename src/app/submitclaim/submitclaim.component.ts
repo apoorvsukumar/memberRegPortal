@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ɵɵtrustConstantResourceUrl } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
@@ -17,7 +18,7 @@ export class SubmitclaimComponent implements OnInit {
     console.log(event.value);
   }
 
-  constructor() {
+  constructor(private router: Router) {
     console.log("constructor");
     this.maxDate = new Date();
    }
@@ -56,6 +57,7 @@ export class SubmitclaimComponent implements OnInit {
     if (this.claimForm.valid) {
       // this.router.navigate(['signin']);
       console.log("navigate");
+      this.router.navigate(['dashboard']);
     } else {
       // iterate throughout all form controls and 
       // 1. retrieve all the keys from the form
