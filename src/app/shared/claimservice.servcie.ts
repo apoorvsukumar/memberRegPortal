@@ -39,9 +39,6 @@ export class ClaimsService {
   }
 
   getAllClaim() {
-    let username = "javainuse";
-    let password = "password";
-    const headers = new HttpHeaders({ Authorization : 'Basic' + btoa(username + ":" + password)});
     return this.http.get<Claims[]>("http://localhost:8080/findAllClaims");
 
   }

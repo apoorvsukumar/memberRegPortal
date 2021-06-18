@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { CustomValidators } from '../custom-validators';
 import { DateValidator } from '../date-validator';
-import { Users } from '../Users/users.model';
 
 @Component({
   selector: 'app-signup',

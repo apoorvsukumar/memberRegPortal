@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -20,6 +20,7 @@ import { ClaimsService } from './shared/claimservice.servcie';
 import { AuthService } from './auth/auth.service';
 import { LogoutComponent } from './logout/logout.component';
 import { AuthGuardService } from './auth/authguard.service';
+import { AuthInterceptorService } from './auth/authinterceptor.service';
 
 const appRoutes: Routes = [
   { path: '' , component: SigninComponent },
@@ -56,7 +57,11 @@ const appRoutes: Routes = [
   providers: [
     ClaimsService,
     AuthService,
-    AuthGuardService
+    AuthGuardService,
+    AuthInterceptorService,
+    {
+      provide:HTTP_INTERCEPTORS, useClass:AuthInterceptorService, multi:true
+    }
   ],
   bootstrap: [AppComponent]
 })
