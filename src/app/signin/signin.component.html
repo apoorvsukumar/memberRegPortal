@@ -1,5 +1,7 @@
 <app-header (featureSelected)="onNavigate($event)"></app-header>
-<form class="row g-3 needs-validation" [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+<!-- <form class="row g-3 needs-validation" [formGroup]="signinForm" (ngSubmit)="onSubmit()"> -->
+  <form class="row g-3 needs-validation" [formGroup]="signinForm" (ngSubmit)="checkLogin()">
+  
     <div class="col-md-4">
       <label for="username" class="form-label">Email address</label>
       <input type="email" 

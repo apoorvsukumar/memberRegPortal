@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Claims } from '../shared/claims.model';
-import { ClaimsData } from '../shared/claimsData.servcie';
+import { ClaimsService } from '../shared/claimservice.servcie';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
 
@@ -11,7 +11,7 @@ import { DatePipe } from '@angular/common';
   selector: 'app-editclaim',
   templateUrl: './editclaim.component.html',
   styleUrls: ['./editclaim.component.css'],
-  providers: [ClaimsData, DatePipe]
+  providers: [ClaimsService, DatePipe]
 })
 export class EditclaimComponent implements OnInit {
   claims: Claims;
@@ -19,31 +19,52 @@ export class EditclaimComponent implements OnInit {
   startDate: FormControl;
   maxDate: Date;
 
-  constructor(private router: Router, private route: ActivatedRoute, private claimsData: ClaimsData, private datePipe: DatePipe) { 
+  constructor(private router: Router, private route: ActivatedRoute, private claimsservice: ClaimsService, private datePipe: DatePipe) { 
     this.maxDate = new Date();
   }
 
   mode: string;
-  id: number;
-dateOB: string;
-dateOD: string;
-dateOA: string;
+  id: string;
+  dateOB: string;
+  dateOD: string;
+  dateOA: string;
   ngOnInit(): void {
-    console.log("init");
-    
-
-    console.log("hi");
     this.route.params.subscribe( (param: Params) => {
       this.mode = param['mode'],
       this.id = param['id']
     });
     console.log(this.mode);
     console.log(this.id);
-    this.claims = this.claimsData.getClaimById(this.id);
-    console.log(this.claimsData.getClaimById(this.id));
-this.dateOB = this.claims.dob.toString();
-this.dateOD = this.claims.dischargeDate.toString();
-this.dateOA = this.claims.admissionDate.toString();
+    this.fetchClaimById(this.id);
+
+    // fetchClaimById()
+
+    // this.claims = this.claimsservice.getClaimById(this.id);
+    // console.log(this.claimsservice.getClaimById(this.id));
+    // this.dateOB = this.claims.dob.toString();
+    // this.dateOD = this.claims.dischargeDate.toString();
+    // this.dateOA = this.claims.admissionDate.toString();
+
+    this.claimForm = new FormGroup({
+      'firstName': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
+      'lastName': new FormControl(null,  [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
+      'providerName': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
+      'billAmount': new FormControl(null, Validators.required),
+      'dob': new FormControl(null, Validators.required),
+      'dischargeDate': new FormControl(null, Validators.required),
+      'admissionDate': new FormControl(null, Validators.required),
+      'dependentType': new FormControl(Validators.required)
+    });
+  }
+
+  fetchClaimById(id: string) {
+    this.claimsservice.fetchClaimById(id).subscribe( responseData => {
+      console.log("last");
+      console.log(responseData);
+      this.claims = responseData;
+      this.dateOB = this.claims.dob.toString();
+    this.dateOD = this.claims.dischargeDate.toString();
+    this.dateOA = this.claims.admissionDate.toString();
 
     this.claimForm = new FormGroup({
       'firstName': new FormControl(this.claims.firstName, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
@@ -53,8 +74,9 @@ this.dateOA = this.claims.admissionDate.toString();
       'dob': new FormControl(this.datePipe.transform(this.dateOB, 'yyyy-MM-dd'), Validators.required),
       'dischargeDate': new FormControl(this.datePipe.transform(this.dateOD, 'yyyy-MM-dd'), Validators.required),
       'admissionDate': new FormControl(this.datePipe.transform(this.dateOA, 'yyyy-MM-dd'), Validators.required),
-      'dependentType': new FormControl(this.claims.dependent, Validators.required)
+      'dependentType': new FormControl(this.claims.dependentType, Validators.required)
     });
+    })
   }
 
   @Output() dateChange:EventEmitter< MatDatepickerInputEvent< any>>;
@@ -79,9 +101,12 @@ this.dateOA = this.claims.admissionDate.toString();
   // this.claims.firstName = event.target.
 
   // this.claimToUpdate = this.claimsData.getClaimById(this.id);
-  this.claimsData.setClaimById(this.id, this.claimForm.value);
-  console.log("after updation");
-  console.log(this.claimForm);
-  this.router.navigate(['dashboard']);
+  // this.claimsservice.setClaimById(this.id, this.claimForm.value);
+  this.claimsservice.updateClaimById(this.claimForm.value).subscribe( responseData => {
+    console.log("after updation");
+    console.log(this.claimForm);
+    this.router.navigate(['dashboard']);
+  });
+  
  }
 }

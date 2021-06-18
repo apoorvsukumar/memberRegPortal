@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 import { CustomValidators } from '../custom-validators';
 import { Users } from '../Users/users.model';
 
@@ -12,7 +13,7 @@ import { Users } from '../Users/users.model';
 export class SigninComponent implements OnInit {
   signinForm: FormGroup;
   showInvalidCredError: Boolean = false;
-  constructor(private router: Router) { }
+  constructor(private router: Router, private loginservice: AuthService) { }
 
   ngOnInit() {
     //called before template is rendered.
@@ -39,6 +40,21 @@ export class SigninComponent implements OnInit {
       this.signinForm.reset();
       this.showInvalidCredError = true;
     }
+    
+  }
+
+  invalidLogin = false;
+  username: string;
+  password: string;
+  checkLogin() {
+    if (this.loginservice.authenticate(this.signinForm.value.username, this.signinForm.value.password)
+    ) {
+      this.router.navigate(['/dashboard'])
+      this.invalidLogin = false
+    } else
+      this.invalidLogin = true;
+      this.signinForm.reset();
+      this.showInvalidCredError = true;
   }
 
   loadedFeature = 'signin';

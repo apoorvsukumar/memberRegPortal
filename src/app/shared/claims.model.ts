@@ -8,6 +8,6 @@ export class Claims {
         public admissionDate: string,
         public providerName: string, 
         public billAmount: number,
-        public dependent: string) {}
+        public dependentType: string) {}
     
 }

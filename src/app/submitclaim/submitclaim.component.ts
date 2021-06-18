@@ -2,7 +2,9 @@ import { Component, EventEmitter, OnInit, Output, ɵɵtrustConstantResourceUrl }
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
+import { ClaimsService } from '../shared/claimservice.servcie';
 
 @Component({
   selector: 'app-submitclaim',
@@ -13,12 +15,14 @@ export class SubmitclaimComponent implements OnInit {
   claimForm: FormGroup;
   startDate: FormControl;
   maxDate: Date;
+  isSubmitClicked = false;
+  error = null;
 
   changeDate(event: any) {
     console.log(event.value);
   }
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient, private claimService: ClaimsService) {
     console.log("constructor");
     this.maxDate = new Date();
    }
@@ -55,9 +59,17 @@ export class SubmitclaimComponent implements OnInit {
   onSubmit() {
     console.log("on submit");
     if (this.claimForm.valid) {
+      this.isSubmitClicked = true;
       // this.router.navigate(['signin']);
       console.log("navigate");
-      this.router.navigate(['dashboard']);
+      // this.router.navigate(['dashboard']);
+      console.log(this.claimForm.value);
+      this.claimService.submitClaim(this.claimForm.value).subscribe( responseData => {
+        console.log("got response and redirecting...");
+        this.router.navigate(['dashboard']);
+      }, error => {
+        this.error = error.message;
+      });
     } else {
       // iterate throughout all form controls and 
       // 1. retrieve all the keys from the form
@@ -69,5 +81,6 @@ export class SubmitclaimComponent implements OnInit {
       });
     }
   }
+
 
 }

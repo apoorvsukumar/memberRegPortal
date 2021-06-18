@@ -1,8 +1,12 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Claims } from './claims.model';
 
 @Injectable()
-export class ClaimsData {
+export class ClaimsService {
+
+  constructor(private http: HttpClient) {}
+
   private claims: Claims[] = [
     new Claims(1, "Max", "Smith", "6/9/1986", "6/9/2021", "6/9/2021", "ABC Healthcare", 100, "Self"),
     new Claims(2, "Down", "Ashley", "05/05/1975", "6/9/2021", "6/9/2021", "Glenmark Pharma", 200, "Self"),
@@ -27,6 +31,30 @@ export class ClaimsData {
     cl.dischargeDate = claim.dischargeDate;
     cl.admissionDate = claim.admissionDate;
     cl.providerName = claim.providerName;
-    cl.dependent = claim.dependent;
+    cl.dependentType = claim.dependentType;
+  }
+
+  submitClaim(claim: Claims) {
+    return this.http.post('http://localhost:8080/addClaim', claim);
+  }
+
+  getAllClaim() {
+    let username = "javainuse";
+    let password = "password";
+    const headers = new HttpHeaders({ Authorization : 'Basic' + btoa(username + ":" + password)});
+    return this.http.get<Claims[]>("http://localhost:8080/findAllClaims");
+
+  }
+
+  deleteClaim(id: string) {
+    return this.http.delete<Claims[]>("http://localhost:8080/deleteClaim/"+id);
+  }
+
+  fetchClaimById(id: string) {
+    return this.http.post<Claims>("http://localhost:8080/fetchClaimById", id);
+  }
+
+  updateClaimById(claim: Claims) {
+    return this.http.post<string>("http://localhost:8080/updateClaimById", claim);
   }
 }
