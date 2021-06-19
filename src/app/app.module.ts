@@ -21,6 +21,7 @@ import { AuthService } from './auth/auth.service';
 import { LogoutComponent } from './logout/logout.component';
 import { AuthGuardService } from './auth/authguard.service';
 import { AuthInterceptorService } from './auth/authinterceptor.service';
+import { RegistrationService } from './shared/registration.service';
 
 const appRoutes: Routes = [
   { path: '' , component: SigninComponent },
@@ -59,6 +60,7 @@ const appRoutes: Routes = [
     AuthService,
     AuthGuardService,
     AuthInterceptorService,
+    RegistrationService,
     {
       provide:HTTP_INTERCEPTORS, useClass:AuthInterceptorService, multi:true
     }

@@ -1,10 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { CustomValidators } from '../custom-validators';
-import { DateValidator } from '../date-validator';
+import { Registration } from '../shared/registration.model';
+import { RegistrationService } from '../shared/registration.service';
 
 @Component({
   selector: 'app-signup',
@@ -41,7 +42,7 @@ export class SignupComponent implements OnInit {
   // minDate: Date;
   maxDate: Date;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private registrationService: RegistrationService) {
     this.maxDate = new Date();
   }
 
@@ -68,13 +69,28 @@ export class SignupComponent implements OnInit {
   }
   // ^((\\+91-?)|0)?[0-9]{10}$
 
+  regObject: Registration;
   onSubmit() {
     console.log(this.signupForm);
     console.log("Registration successful");
     console.log(this.signupForm.valid);
 
+    
     if (this.signupForm.valid) {
-      this.router.navigate(['signin']);
+      this.regObject = new Registration(
+        this.signupForm.value.name,
+        this.signupForm.value.address,
+        this.signupForm.value.country,
+        this.signupForm.value.state,
+        this.signupForm.value.email,
+        this.signupForm.value.password,
+        this.signupForm.value.pan,
+        this.signupForm.value.contactNo,
+        this.signupForm.value.dob
+      );
+      this.registrationService.registerUser(this.regObject).subscribe( responseData => {
+        this.router.navigate(['signin']);
+      });
     } else {
       // iterate throughout all form controls and 
       // 1. retrieve all the keys from the form
