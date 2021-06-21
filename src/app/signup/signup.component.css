@@ -2,3 +2,12 @@
     color: red;
     font-weight: 500;
 }
+.mat-form-field {
+    display: initial;
+}
+.card-signup {
+    background-color: aliceblue;
+}
+input {
+    border-radius: 20px;
+}

@@ -19,18 +19,17 @@ export class AuthService {
                     return userData;
                 }
             )
-
         );
     }
 
     isUserLoggedIn() {
-        let user = sessionStorage.getItem('username')
-        console.log(!(user === null))
+        let user = sessionStorage.getItem('username');
         return !(user === null)
     }
 
     logOut() {
-        sessionStorage.removeItem('username')
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('basicauth');
     }
 
 }

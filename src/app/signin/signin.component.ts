@@ -62,14 +62,4 @@ export class SigninComponent implements OnInit {
     //   this.signinForm.reset();
     //   this.showInvalidCredError = true;
   }
-
-  loadedFeature = 'signin';
-  title = 'my-first-app';
-  onNavigate(feature: string) {
-    console.log("on navigate "+feature);
-    this.loadedFeature = feature;
-  }
-
-
-
 }

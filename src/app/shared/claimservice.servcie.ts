@@ -52,6 +52,6 @@ export class ClaimsService {
   }
 
   updateClaimById(claim: Claims) {
-    return this.http.post<string>("http://localhost:8080/updateClaimById", claim);
+    return this.http.post<Claims>("http://localhost:8080/updateClaimById", claim);
   }
 }

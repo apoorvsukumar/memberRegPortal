@@ -18,6 +18,7 @@ export class EditclaimComponent implements OnInit {
   claimForm: FormGroup;
   startDate: FormControl;
   maxDate: Date;
+  errorWhileUpdate=false;
 
   constructor(private router: Router, private route: ActivatedRoute, private claimsservice: ClaimsService, private datePipe: DatePipe) { 
     this.maxDate = new Date();
@@ -37,15 +38,8 @@ export class EditclaimComponent implements OnInit {
     console.log(this.id);
     this.fetchClaimById(this.id);
 
-    // fetchClaimById()
-
-    // this.claims = this.claimsservice.getClaimById(this.id);
-    // console.log(this.claimsservice.getClaimById(this.id));
-    // this.dateOB = this.claims.dob.toString();
-    // this.dateOD = this.claims.dischargeDate.toString();
-    // this.dateOA = this.claims.admissionDate.toString();
-
     this.claimForm = new FormGroup({
+      'id': new FormControl(null),
       'firstName': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
       'lastName': new FormControl(null,  [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
       'providerName': new FormControl(null, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
@@ -67,6 +61,7 @@ export class EditclaimComponent implements OnInit {
     this.dateOA = this.claims.admissionDate.toString();
 
     this.claimForm = new FormGroup({
+      'id': new FormControl(this.claims.id),
       'firstName': new FormControl(this.claims.firstName, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
       'lastName': new FormControl(this.claims.lastName,  [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
       'providerName': new FormControl(this.claims.providerName, [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]),
@@ -95,6 +90,7 @@ export class EditclaimComponent implements OnInit {
   fetchedFN: string;
   claimToUpdate: Claims;
  onSubmit(event: Event){
+  this.errorWhileUpdate = false;
   console.log("update claim");
   this.fetchedFN = this.claimForm.value;
   console.log(this.claimForm.value);
@@ -102,10 +98,23 @@ export class EditclaimComponent implements OnInit {
 
   // this.claimToUpdate = this.claimsData.getClaimById(this.id);
   // this.claimsservice.setClaimById(this.id, this.claimForm.value);
+  console.log("doing backend call");
   this.claimsservice.updateClaimById(this.claimForm.value).subscribe( responseData => {
     console.log("after updation");
-    console.log(this.claimForm);
-    this.router.navigate(['dashboard']);
+    console.log(responseData);
+    if (responseData == null) {
+      // show error message
+      this.errorWhileUpdate = true;
+    } else {
+      this.router.navigate(['dashboard']);
+    }
+  }, error => {
+    console.log("found error");
+    console.log(error);
+    if (error == null) {
+      // show error message
+      this.errorWhileUpdate = true;
+    }
   });
   
  }

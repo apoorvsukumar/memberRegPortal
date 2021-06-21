@@ -15,6 +15,7 @@ import { RegistrationService } from '../shared/registration.service';
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   age: number;
+  error = false;
 
   countryList: Array<any> = [
     { name: 'Germany', states: ['Duesseldorf', 'Leinfelden-Echterdingen', 'Eschborn'] },
@@ -71,6 +72,7 @@ export class SignupComponent implements OnInit {
 
   regObject: Registration;
   onSubmit() {
+    this.error = false;
     console.log(this.signupForm);
     console.log("Registration successful");
     console.log(this.signupForm.valid);
@@ -86,10 +88,15 @@ export class SignupComponent implements OnInit {
         this.signupForm.value.password,
         this.signupForm.value.pan,
         this.signupForm.value.contactNo,
-        this.signupForm.value.dob
+        this.signupForm.value.dob,
+        null
       );
       this.registrationService.registerUser(this.regObject).subscribe( responseData => {
-        this.router.navigate(['signin']);
+        if (responseData == null) {
+          this.error = true;
+        } else {
+          this.router.navigate(['signin']);
+        }
       });
     } else {
       // iterate throughout all form controls and 
@@ -104,10 +111,4 @@ export class SignupComponent implements OnInit {
 
   }
 
-  loadedFeature = 'signin';
-  title = 'my-first-app';
-  onNavigate(feature: string) {
-    console.log("on navigate " + feature);
-    this.loadedFeature = feature;
-  }
 }

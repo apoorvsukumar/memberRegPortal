@@ -1,13 +1,14 @@
 export class Registration{
     constructor(
-        private name: string,
-        private address: string,
-        private country: string,
-        private state: string,
-        private email: string,
-        private password: string,
-        private pan: string,
-        private contactNo: string,
-        private dob: string
+        public name: string,
+        public address: string,
+        public country: string,
+        public state: string,
+        public email: string,
+        public password: string,
+        public pan: string,
+        public contactNo: string,
+        public dob: string,
+        public oldEmail: string
     ) {}
 }

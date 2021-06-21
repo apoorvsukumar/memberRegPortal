@@ -1,6 +1,7 @@
 <h3>Edit claim</h3>
 <hr>
 <form class="row g-3 needs-validation" [formGroup]="claimForm" (ngSubmit)="onSubmit($event)">
+    <input type="hidden" class="form-control" name="id" formControlName="id" />
     <div class="form-group col-5">
         <label for="firstName">First Name</label>
         <input type="text" class="form-control" name="firstName" autocomplete="off" placeholder="Enter First name"
@@ -82,6 +83,7 @@
             <div class="text-danger" *ngIf="claimForm.get('dependentType').errors.required">Please select a dependent type.</div>
         </div>
     </div>
+    <div class="alert alert-danger" *ngIf="errorWhileUpdate">Something went wrong. Please try again.</div>
     <hr>
     <div class="input">
         <button class="btn btn-primary" type="submit">Update claim</button>

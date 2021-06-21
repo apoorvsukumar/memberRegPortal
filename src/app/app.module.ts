@@ -22,6 +22,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { AuthGuardService } from './auth/authguard.service';
 import { AuthInterceptorService } from './auth/authinterceptor.service';
 import { RegistrationService } from './shared/registration.service';
+import { UpdateuserComponent } from './updateuser/updateuser.component';
+import { HeaderUserService } from './shared/headeruser.service';
 
 const appRoutes: Routes = [
   { path: '' , component: SigninComponent },
@@ -30,7 +32,8 @@ const appRoutes: Routes = [
   { path: 'dashboard' , component: DashboardComponent, canActivate:[AuthGuardService]},
   { path: 'claimPage' , component: SubmitclaimComponent, canActivate:[AuthGuardService]},
   { path: 'editClaim/:mode/:id' , component: EditclaimComponent, canActivate:[AuthGuardService]},
-  { path: 'logout' , component: LogoutComponent, canActivate:[AuthGuardService]}
+  { path: 'logout' , component: LogoutComponent, canActivate:[AuthGuardService]},
+  { path: 'updateUser' , component: UpdateuserComponent, canActivate:[AuthGuardService]}
 ];
 
 @NgModule({
@@ -42,7 +45,8 @@ const appRoutes: Routes = [
     DashboardComponent,
     SubmitclaimComponent,
     EditclaimComponent,
-    LogoutComponent
+    LogoutComponent,
+    UpdateuserComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,7 @@ const appRoutes: Routes = [
     AuthGuardService,
     AuthInterceptorService,
     RegistrationService,
+    HeaderUserService,
     {
       provide:HTTP_INTERCEPTORS, useClass:AuthInterceptorService, multi:true
     }
